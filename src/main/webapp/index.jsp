@@ -38,6 +38,11 @@
         </tr>
         <tr>
             <td>
+                <a href="/order/transfer" target="_blank">转账</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a href="/account/open"  target="_blank">个人开户</a>
                 <a href="/account/openCompany"  target="_blank">企业开户</a>
                 <a href="/account/demo/queryStat"  target="_blank">查询企业开户状态</a>

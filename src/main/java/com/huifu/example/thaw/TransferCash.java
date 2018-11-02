@@ -27,14 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 后台方式执行退款 调用退款过程中没有汇付页面
- * 
- * @author yinfeng.yuan
+ * 转账接口
  */
 @Controller
 @RequestMapping(value = "/order")
-public class ThawOrder {
-	public static Logger log = LoggerFactory.getLogger(ThawOrder.class);
+public class TransferCash {
+	public static Logger log = LoggerFactory.getLogger(TransferCash.class);
 
 	/**
 	 * 订单解冻
@@ -45,9 +43,9 @@ public class ThawOrder {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/demo/thaw")
+	@RequestMapping("/transfer")
 	@ResponseBody
-	public String thaw(ModelMap map,
+	public String transfer(ModelMap map,
 							HttpServletRequest request, HttpServletResponse response,
 							HttpSession session) throws IOException {
 		String orderId = makeOrderId();
@@ -59,25 +57,18 @@ public class ThawOrder {
 
 		// 根据接口规范，传入请求数据
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
-		payParams.put(Constants.CMD_ID, "212");
+		payParams.put(Constants.CMD_ID, "203");
 		payParams.put(Constants.MER_CUST_ID, merCustId);
-		payParams.put(Constants.USER_CUST_ID, QuickPay.user_cust_id);  	// 这个是什么值？
+		//payParams.put(Constants.USER_CUST_ID, userCustId);  	// 这个是什么值？
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
-		//payParams.put(Constants.TRANS_AMT,"0.01");
-		//原交易的交易唯一标识号
-		payParams.put(Constants.ORGINAL_PLATFORM_SEQ_ID, QuickPay.platform_seq_id);
-		payParams.put(Constants.QUICKPAY_PAGE_FLAG,"1");
-		//退款分账串
-		DivDetailBo divBo = new DivDetailBo();
-		divBo.setDivCustId(inCustId);//inCustId是原支付入账用户客户号
-		divBo.setDivAcctId(inAcctId);//inAcctId是原支付入账账户
-		divBo.setDivAmt("0.01");//金额
-		divBo.setDivFreezeFg("01"); //01：冻结; 00：不冻结
+		payParams.put("transfer_amt","0.01");
 
-		List<DivDetailBo> divBoList = new ArrayList<>();
-		divBoList.add(divBo);
-		payParams.put(Constants.DIV_DETAIL, JSON.toJSONString(divBoList));
+		payParams.put("out_cust_id", "6666000000054655");
+		payParams.put("out_acct_id","64782");
+		payParams.put("in_cust_id", "6666000000056254");
+		payParams.put("in_acct_id","67465");
+
 		payParams.put(Constants.BG_RET_URL,bgRetUrl);
 		payParams.put(Constants.MER_PRIV, "");
 		payParams.put(Constants.EXTENSION, "");
@@ -98,7 +89,7 @@ public class ThawOrder {
 		HttpRequest httpRequest = HttpRequest.post(url).charset("UTF-8");
 
 		// 组织post数据
-		String postStr = "cmd_id=" + 212
+		String postStr = "cmd_id=" + 203
 				+ "&version=" + Constants.VERSION_VALUE
 				+ "&mer_cust_id=" + merCustId
 				+ "&check_value=" + sign;
@@ -110,7 +101,7 @@ public class ThawOrder {
 		// 取得同步返回数据
 		String body = httpResponse.bodyText();
 		String resultStr = SecurityService.parseCVResult(body,cfcaInfoBo);
-		log.info("退款返回参数："+resultStr);
+		log.info("转账返回参数："+resultStr);
 		return resultStr;
 
 	}
