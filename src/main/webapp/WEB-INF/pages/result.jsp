@@ -11,7 +11,7 @@
     <br/>
     <%-- <textarea class="fund-input" name="result" id="result" style="word-break:break-all;word-wrap: break-word;margin: 0px; height: 90px; width: 710px;">${result}</textarea> --%>
 	<br/>
-	
+	<p class="txt">${statResult}</p>
 	<div style="display: none;">
 		<input type="hidden" name="merCustId" value="${merCustId}">
 		<input type="hidden" name="orderId" value="${orderId}">

@@ -204,7 +204,7 @@ public class OpenAccount {
 		Map<String, String> payParams = new HashMap<String, String>();
 		payParams.put(Constants.MER_CUST_ID, merCustId);
 		payParams.put(Constants.URL,url);
-		payParams.put(Constants.TRANS_QUERY_CMD_ID,"317");
+		payParams.put(Constants.CMD_ID,"317");
 		payParams.put("business_code","a1225431204");
 
 		// 调用交易状态查询接口
@@ -226,6 +226,8 @@ public class OpenAccount {
 		Map<String, Object> resultMap = JSON.parseObject(statResult);
 		platform_seq_id = (String) resultMap.get("platform_seq_id");
 		user_cust_id = (String) resultMap.get("user_cust_id");
+
+		map.put("statResult", statResult);
 		// 获得终态，返回页面信息
 		if (Constants.TRANS_SUCCESS.equals(resultMap.get(Constants.TRANS_STAT))) {
 			map.put("stat", "开通成功");
