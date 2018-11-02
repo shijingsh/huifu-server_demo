@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>huifu-service-demo</artifactId>
+    <artifactId>huifu-server-demo</artifactId>
     <packaging>war</packaging>
     <name>service-demo Maven Webapp</name>
     <url>http://maven.apache.org</url>
