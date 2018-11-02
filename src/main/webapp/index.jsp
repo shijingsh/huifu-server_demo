@@ -21,7 +21,7 @@
         <tr>
             <td>
                 <a href="/quickPay/payFrozen" target="_blank">去支付冻结</a>
-                <a href="/refund/demo/thaw"  target="_blank">订单解冻</a>
+                <a href="/order/demo/thaw"  target="_blank">订单解冻</a>
             </td>
         </tr>
         <tr>
