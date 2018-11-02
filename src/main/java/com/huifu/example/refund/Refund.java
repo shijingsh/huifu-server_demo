@@ -2,6 +2,7 @@ package com.huifu.example.refund;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,11 +43,17 @@ import com.huifu.saturn.cfca.VerifyResult;
 @RequestMapping(value = "/refund")
 public class Refund {
 	public static Logger log = LoggerFactory.getLogger(Refund.class);
-
+	public static String orderId = null;
+	public static String orderDate = null;
 	@RequestMapping("/refund")
 	@ResponseBody
 	public String refund(ModelMap map, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
+
+		orderId = makeOrderId();
+
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+		orderDate = dateformat.format(System.currentTimeMillis());
 
 		// 请求数据map格式
 		Map<String, String> payParams = new HashMap<>();
@@ -56,8 +63,8 @@ public class Refund {
 		payParams.put(Constants.CMD_ID, Constants.REFUND_CMD_ID);		
 		payParams.put(Constants.MER_CUST_ID, merCustId);
 		payParams.put(Constants.USER_CUST_ID, QuickPay.user_cust_id);
-		payParams.put(Constants.ORDER_ID, QuickPay.orderId+"001");
-		payParams.put(Constants.ORDER_DATE, QuickPay.orderDate);
+		payParams.put(Constants.ORDER_ID, orderId);
+		payParams.put(Constants.ORDER_DATE, orderDate);
 		payParams.put(Constants.TRANS_AMT,"0.01");
 		//原交易的交易唯一标识号
 		payParams.put(Constants.ORGINAL_PLATFORM_SEQ_ID, QuickPay.platform_seq_id);
@@ -115,8 +122,8 @@ public class Refund {
 		// 获取页面数据、加签
 		Map<String, String> payParams = new HashMap<String, String>();
 		payParams.put(Constants.MER_CUST_ID, merCustId);
-		payParams.put(Constants.ORDER_ID, QuickPay.orderId+"001");
-		payParams.put(Constants.ORDER_DATE, QuickPay.orderDate);
+		payParams.put(Constants.ORDER_ID, orderId);
+		payParams.put(Constants.ORDER_DATE, orderDate);
 		payParams.put(Constants.TRANS_TYPE, "04");
 		payParams.put(Constants.URL,url);
 

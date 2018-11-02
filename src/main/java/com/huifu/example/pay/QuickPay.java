@@ -58,7 +58,7 @@ public class QuickPay {
 		payParams.put(Constants.MER_CUST_ID, merCustId);
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
-		payParams.put(Constants.USER_CUST_ID, userCustId);
+		//payParams.put(Constants.USER_CUST_ID, userCustId); 支付用户的客户id
 		payParams.put(Constants.IN_CUST_ID, inCustId);
 		payParams.put(Constants.IN_ACCT_ID, inAcctId);
 		payParams.put("goods_short_name", "商品件曾");
@@ -116,7 +116,8 @@ public class QuickPay {
 		payParams.put(Constants.MER_CUST_ID, merCustId);
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
-		payParams.put(Constants.USER_CUST_ID, userCustId);
+		//payParams.put(Constants.USER_CUST_ID, userCustId); 支付用户的客户id
+		//支付不设置冻结的时候
 		//payParams.put(Constants.IN_CUST_ID, inCustId);
 		//payParams.put(Constants.IN_ACCT_ID, inAcctId);
 
@@ -187,8 +188,8 @@ public class QuickPay {
 		payParams.put(Constants.MER_CUST_ID, merCustId);
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
-		payParams.put(Constants.USER_CUST_ID, userCustId);
-
+		//payParams.put(Constants.USER_CUST_ID, userCustId); 支付用户的客户id
+		payParams.put(Constants.USER_CUST_ID, "");
 		//分账串
 		DivDetailBo divBo = new DivDetailBo();
 		divBo.setDivCustId(inCustId);//inCustId是原支付入账用户客户号
