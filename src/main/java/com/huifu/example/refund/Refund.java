@@ -140,6 +140,7 @@ public class Refund {
 		//platform_seq_id = (String) resultMap.get("platform_seq_id");
 		//user_cust_id = (String) resultMap.get("user_cust_id");
 		// 获得终态，返回页面信息
+		map.put("statResult", statResult);
 		if ("02000009".equals(resultMap.get(Constants.TRANS_STAT))) {
 			map.put("stat", "退款成功");
 			map.put("skipFlg", false);

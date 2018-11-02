@@ -1,13 +1,16 @@
 package com.huifu.example.pay;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.huifu.npay.master.domain.DivDetailBo;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 
@@ -40,22 +43,25 @@ public class AppPay {
 	public String pay(ModelMap map, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		log.info("************app支付请求**************");
-		
+
+		String orderId = makeOrderId();
+
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+		String orderDate = dateformat.format(System.currentTimeMillis());
+
 		// 支付请求数据
 		String payType = request.getParameter(Constants.PAY_TYPE);
 				
 		//组装支付+请求参数
-		Map<String, String> payParams = new HashMap<String, String>();
+		Map<String, String> payParams = new HashMap<>();
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
 		payParams.put(Constants.CMD_ID, Constants.APP_CMD_ID);		
 		payParams.put(Constants.MER_CUST_ID, merCustId);
-		payParams.put(Constants.ORDER_ID, makeOrderId());
-		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
-		String dateStr = dateformat.format(System.currentTimeMillis());
-		payParams.put(Constants.ORDER_DATE, dateStr);
+		payParams.put(Constants.ORDER_ID, orderId);
+		payParams.put(Constants.ORDER_DATE, orderDate);
 		payParams.put(Constants.USER_CUST_ID,userCustId);
-		payParams.put(Constants.IN_CUST_ID, inCustId);
-		payParams.put(Constants.IN_ACCT_ID, inAcctId);
+		//payParams.put(Constants.IN_CUST_ID, inCustId);
+		//payParams.put(Constants.IN_ACCT_ID, inAcctId);
 		payParams.put(Constants.PAY_TYPE, payType);
 		if(Constants.WX_APP_PAY.equals(payType)){
 			payParams.put(Constants.APP_ID, appId);
@@ -69,16 +75,26 @@ public class AppPay {
 		payParams.put(Constants.GOODS_DESC, "测试用");	
 		payParams.put(Constants.BG_RET_URL,bgRetUrl);
 		payParams.put(Constants.MER_PRIV, "");
+
+		//分账串
+		DivDetailBo divBo = new DivDetailBo();
+		divBo.setDivCustId(inCustId);//inCustId是原支付入账用户客户号
+		divBo.setDivAcctId(inAcctId);//inAcctId是原支付入账账户
+		divBo.setDivAmt("0.01");//金额
+		divBo.setDivFreezeFg("01"); //divFreezeFg 01：冻结; 00：不冻结
+		List<DivDetailBo> divBoList = new ArrayList<>();
+		divBoList.add(divBo);
+		payParams.put(Constants.DIV_DETAIL, JSON.toJSONString(divBoList));
+
 		//加解签证书参数
 		CfcaInfoBo cfcaInfoBo = new CfcaInfoBo();
 		// 解签证书
-		// 解签证书
-		cfcaInfoBo.setCerFile(System.getProperty("cerFile"));
+		cfcaInfoBo.setCerFile(cerFile);
 		// 加签证书
-		cfcaInfoBo.setPfxFile(System.getProperty("pfxFile"));
+		cfcaInfoBo.setPfxFile(pfxFile);
 		// 加签密码
-		cfcaInfoBo.setPfxFilePwd(System.getProperty("pfxFilePwd"));
-		//商户ID
+		cfcaInfoBo.setPfxFilePwd(pfxFilePwd);
+		// 商户ID
 		cfcaInfoBo.setNpayMerId(hfMerId);
 		
 		// 转换成json格式
@@ -117,6 +133,9 @@ public class AppPay {
 	private String userCustId;
 	private String inCustId;
 	private String inAcctId;
+	private String pfxFile;
+	private String pfxFilePwd;
+	private String cerFile;
 	private String appId;
 	private String url;
     private String bgRetUrl;
@@ -152,5 +171,21 @@ public class AppPay {
 	@Value("#{prop.bgRetUrl}") 
 	public void setBgRetUrl(String bgRetUrl) {
 		this.bgRetUrl = bgRetUrl;
+	}
+
+
+	@Value("#{prop.pfxFile}")
+	public void setPfxFile(String pfxFile) {
+		this.pfxFile = pfxFile;
+	}
+
+	@Value("#{prop.pfxFilePwd}")
+	public void setPfxFilePwd(String pfxFilePwd) {
+		this.pfxFilePwd = pfxFilePwd;
+	}
+
+	@Value("#{prop.cerFile}")
+	public void setCerFile(String cerFile) {
+		this.cerFile = cerFile;
 	}
 }

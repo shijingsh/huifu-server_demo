@@ -110,7 +110,7 @@ public class QuickPay {
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
 		orderDate = dateformat.format(System.currentTimeMillis());
 		//组装支付+请求参数
-		Map<String, String> payParams = new HashMap<String, String>();
+		Map<String, String> payParams = new HashMap<>();
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
 		payParams.put(Constants.CMD_ID, Constants.QP_PAY_CMD_ID);
 		payParams.put(Constants.MER_CUST_ID, merCustId);
@@ -166,7 +166,83 @@ public class QuickPay {
 
 		return "submit";
 	}
-	
+
+	@RequestMapping(value = "/payQrcode")
+	public String payQrcode(ModelMap map, HttpServletRequest request,
+							HttpServletResponse response, HttpSession session) throws Exception {
+
+		// 支付请求数据
+		String payType = request.getParameter(Constants.PAY_TYPE);
+		if(StringUtils.isBlank(payType)){
+			payType = "04";
+		}
+		orderId = makeOrderId();
+
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+		orderDate = dateformat.format(System.currentTimeMillis());
+		//组装支付+请求参数
+		Map<String, String> payParams = new HashMap<>();
+		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
+		payParams.put(Constants.CMD_ID, "209");
+		payParams.put(Constants.MER_CUST_ID, merCustId);
+		payParams.put(Constants.ORDER_ID, orderId);
+		payParams.put(Constants.ORDER_DATE, orderDate);
+		payParams.put(Constants.USER_CUST_ID, userCustId);
+
+		//分账串
+		DivDetailBo divBo = new DivDetailBo();
+		divBo.setDivCustId(inCustId);//inCustId是原支付入账用户客户号
+		divBo.setDivAcctId(inAcctId);//inAcctId是原支付入账账户
+		divBo.setDivAmt("0.01");//金额
+		divBo.setDivFreezeFg("01"); //divFreezeFg 01：冻结; 00：不冻结
+		List<DivDetailBo> divBoList = new ArrayList<>();
+		divBoList.add(divBo);
+		payParams.put(Constants.DIV_DETAIL, JSON.toJSONString(divBoList));
+		//设置订单 金额
+		if(!StringUtils.isBlank(request.getParameter(Constants.TRANS_AMT))){
+			payParams.put(Constants.TRANS_AMT, request.getParameter(Constants.TRANS_AMT));
+		}else{
+			payParams.put(Constants.TRANS_AMT, "0.01");
+		}
+		//如果需要支付完成后跳转指定页面，则需要设置此项
+		payParams.put(Constants.BG_RET_URL,bgRetUrl);
+		payParams.put(Constants.MER_PRIV, "");
+		payParams.put(Constants.EXTENSION, "");
+		payParams.put("trans_amt", "0.01");
+		payParams.put("pay_type", payType);
+		payParams.put("request_type", "00");
+		payParams.put("goods_desc", "商品测试");
+		payParams.put("goods_type", "试测试试qq");
+		payParams.put("oper_user_id", "试试qq");
+		//payParams.put("order_expire_time", "9900");
+
+		CfcaInfoBo cfcaInfoBo = new CfcaInfoBo();
+		// 解签证书
+		cfcaInfoBo.setCerFile(cerFile);
+		// 加签证书
+		cfcaInfoBo.setPfxFile(pfxFile);
+		// 加签密码
+		cfcaInfoBo.setPfxFilePwd(pfxFilePwd);
+		// 商户ID
+		cfcaInfoBo.setNpayMerId(hfMerId);
+
+		// 转换成json格式
+		String paramsStr = JSON.toJSONString(payParams);
+		log.info("扫码支付请求参数："+paramsStr);
+		// 加签
+		String sign = SecurityService.sign(paramsStr,cfcaInfoBo);
+
+		map.put("version", Constants.VERSION_VALUE);
+		map.put("cmdId", "209");
+		map.put("merCustId", merCustId);
+		//设置加签后的接口参数
+		map.put("sign", sign);
+		//设置接口地址
+		map.put("url", url);
+
+		return "submit";
+	}
+
 	/**
 	 * 生成订单号
 	 * @return
