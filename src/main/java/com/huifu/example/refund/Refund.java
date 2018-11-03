@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.huifu.example.pay.QuickPay;
 import com.huifu.npay.master.transQuery.TransQueryService;
+import com.huifu.saturn.cfca.util.StringUtils;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 
@@ -50,6 +51,7 @@ public class Refund {
 	public String refund(ModelMap map, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 
+		String type = request.getParameter("type");
 		orderId = makeOrderId();
 
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
@@ -68,7 +70,12 @@ public class Refund {
 		payParams.put(Constants.TRANS_AMT,"0.01");
 		//原交易的交易唯一标识号
 		payParams.put(Constants.ORGINAL_PLATFORM_SEQ_ID, QuickPay.platform_seq_id);
-		payParams.put(Constants.QUICKPAY_PAGE_FLAG,"1");
+		//0 是：1 原交易为快捷支付WEB版或快捷支付APP版时，设为是
+		//扫码支付不要传
+		if(StringUtils.isBlank(type)){
+			payParams.put(Constants.QUICKPAY_PAGE_FLAG,"1");
+		}
+
 		//退款分账串
 		DivDetailBo divBo = new DivDetailBo();
 		divBo.setDivCustId(inCustId);//inCustId是原支付入账用户客户号
