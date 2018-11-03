@@ -153,7 +153,7 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.6</version>
         </dependency>
-        <!--huifu -->
+        <!--huifu jar 包请先安装到本地仓库，mvn命令见：WEB-INF/lib/huifu_jar.txt -->
         <dependency>
             <groupId>com.huifu.saturn</groupId>
             <artifactId>saturn-cfca</artifactId>
