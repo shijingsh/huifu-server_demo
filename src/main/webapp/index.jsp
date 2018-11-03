@@ -62,6 +62,7 @@
             <td>
                 <a href="/transQuery/balance?inCustId=6666000000054655&inAcctId=64782"  target="_blank">查询中间帐号余额</a>
                 <a href="/transQuery/balance"  target="_blank">查询测试帐号余额</a>
+                <a href="/transQuery/balance?inCustId=6666000000056432&inAcctId=67787"  target="_blank">查询企业测试帐号余额</a>
             </td>
         </tr>
     </table>

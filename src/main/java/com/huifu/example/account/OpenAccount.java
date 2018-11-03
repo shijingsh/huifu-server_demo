@@ -197,7 +197,24 @@ public class OpenAccount {
 	public String queryStat(ModelMap map,
 							HttpServletRequest request, HttpServletResponse response,
 							HttpSession session) throws IOException {
-
+		/*{
+			"resp_desc": "交易成功",
+				"acct_id_list": "[{\"acctBusinessType\":\"00\",\"acctId\":\"67787\",\"acctName\":\"基本支付账户\",\"statFlag\":\"1\"}]",
+				"cmd_id": "317",
+				"cert_type": "00",
+				"cert_id": "140203195101011256",
+				"business_code": "a1225431204",
+				"user_cust_id": "6666000000056432",
+				"institution_code": "088100129",
+				"user_name": "全球黑科",
+				"contact_mobile": "15911552132",
+				"tax_code": "a199945675",
+				"stat_flag": "1",
+				"resp_code": "317000",
+				"social_credit_code": "",
+				"role_type": "01",
+				"mer_cust_id": "6666000000054655"
+		}*/
 		// 获取页面数据、加签
 		Map<String, String> payParams = new HashMap<String, String>();
 		payParams.put(Constants.MER_CUST_ID, merCustId);

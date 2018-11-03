@@ -53,18 +53,32 @@ public class TakeCash {
 		// 请求数据map格式
 		Map<String, String> payParams = new HashMap<>();
 
+		/**
+		 * 个人绑卡
+		 * "user_cust_id", 6666000000056254
+		 * "card_no", "6232510000009003"
+		 * "card_mobile", "15921359797"
+		 *
+		 */
+		/**
+		 * 企业绑卡
+		 * "user_cust_id", 6666000000056432
+		 * "card_no", "6232510000009004"
+		 * "card_mobile", "15921359798"
+		 *
+		 */
 		// 根据接口规范，传入请求数据
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
 		payParams.put(Constants.CMD_ID, "104");
 		payParams.put(Constants.MER_CUST_ID, merCustId);
-		payParams.put(Constants.USER_CUST_ID, "6666000000056254");  	// 这个是什么值？
+		payParams.put(Constants.USER_CUST_ID, "6666000000056432");  	// 这个是什么值？
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
 
 		payParams.put("bank_id", "01050000");
 		payParams.put("dc_flag", "0");
-		payParams.put("card_no", "6232510000009003");
-		payParams.put("card_mobile", "15921359797");
+		payParams.put("card_no", "6232510000009004");
+		payParams.put("card_mobile", "15921359798");
 		payParams.put("card_prov", "0031");
 		payParams.put("card_area", "3100");
 
@@ -121,7 +135,11 @@ public class TakeCash {
 		payParams.put(Constants.CMD_ID, "318");
 		payParams.put(Constants.MER_CUST_ID,merCustId);
 
-		payParams.put(Constants.USER_CUST_ID, "6666000000056254");
+		/**
+		 * 6666000000056254 个人账户
+		 * 6666000000056432 企业账户
+		 */
+		payParams.put(Constants.USER_CUST_ID, "6666000000056432");
 		payParams.put("bind_card_id", "");
 
 		CfcaInfoBo cfcaInfoBo = new CfcaInfoBo();
@@ -188,17 +206,25 @@ public class TakeCash {
 				"user_cust_id": "6666000000056254",
 				"mer_cust_id": "6666000000054655"
 		}*/
+		/**
+		 * 6666000000056254 个人账户
+		 * 6666000000056432 企业账户
+		 */
 		// 根据接口规范，传入请求数据
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
 		payParams.put(Constants.CMD_ID, "202");
 		payParams.put(Constants.MER_CUST_ID, merCustId);
-		payParams.put(Constants.USER_CUST_ID, "6666000000056254");
+		payParams.put(Constants.USER_CUST_ID, "6666000000056432");
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
-		payParams.put("trans_amt","0.03");
+		payParams.put("trans_amt","0.01");
 
-		payParams.put("cash_bind_card_id", "77217");
-		payParams.put("cash_type", "02030010");//02030000：T+0取现；02030010：T+1取现
+		/**
+		 * 77217 个人
+		 * 77219 企业
+		 */
+		payParams.put("cash_bind_card_id", "77219");
+		payParams.put("cash_type", "02030000");//02030000：T+0取现；02030010：T+1取现
 
 		payParams.put(Constants.BG_RET_URL,bgRetUrl);
 		payParams.put(Constants.MER_PRIV, "");
