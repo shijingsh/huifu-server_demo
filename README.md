@@ -19,11 +19,10 @@ mvn install:install-file -DgroupId=org.jodd -DartifactId=jodd-upload -Dversion=3
 
 ## 安装汇付测试证书
 
-  -证书需要你联系官方获取
-  -之后官方会以邮件方式发你一个证书下载链接
-  -操作方法见文件：证书下载操作指引V1.0.docx
-  
-  -安装 CryptoKit.exe文件
+  - 证书需要你联系官方获取
+  - 之后官方会以邮件方式发你一个证书下载链接
+  - 操作方法见文件：证书下载操作指引V1.0.docx
+  - 安装 CryptoKit.exe文件
  
 ## 运行
  配置tomcat，启动服务即可
