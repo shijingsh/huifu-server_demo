@@ -39,7 +39,6 @@ public class AppPay {
 	public static Logger log = LoggerFactory.getLogger(AppPay.class);
 	
 	@RequestMapping("pay")
-	@ResponseBody
 	public String pay(ModelMap map, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		log.info("************app支付请求**************");
@@ -49,23 +48,17 @@ public class AppPay {
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
 		String orderDate = dateformat.format(System.currentTimeMillis());
 
-		// 支付请求数据
-		String payType = request.getParameter(Constants.PAY_TYPE);
-				
 		//组装支付+请求参数
 		Map<String, String> payParams = new HashMap<>();
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
-		payParams.put(Constants.CMD_ID, Constants.APP_CMD_ID);		
+		payParams.put(Constants.CMD_ID, "208");
 		payParams.put(Constants.MER_CUST_ID, merCustId);
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
-		payParams.put(Constants.USER_CUST_ID,userCustId);
+		//payParams.put(Constants.USER_CUST_ID,userCustId);
 		//payParams.put(Constants.IN_CUST_ID, inCustId);
 		//payParams.put(Constants.IN_ACCT_ID, inAcctId);
-		payParams.put(Constants.PAY_TYPE, payType);
-		if(Constants.WX_APP_PAY.equals(payType)){
-			payParams.put(Constants.APP_ID, appId);
-		}
+
 		//从selfParamInfo这个中获取支付信息
 		if(!StringUtils.isBlank(request.getParameter(Constants.TRANS_AMT))){
 			payParams.put(Constants.TRANS_AMT, request.getParameter(Constants.TRANS_AMT));
@@ -102,23 +95,16 @@ public class AppPay {
 		log.info("app支付请求参数："+paramsStr);
 		// 加签
 		String sign = SecurityService.sign(paramsStr,cfcaInfoBo);
-		HttpRequest httpRequest = HttpRequest.post(url).charset("UTF-8");
-		// 组织post数据
-		String postStr = "cmd_id=" + Constants.APP_CMD_ID 
-				+ "&version=" + Constants.VERSION_VALUE
-				+ "&mer_cust_id=" + merCustId 
-				+ "&check_value=" + sign;
 
-		// 发送请求给汇付
-		HttpResponse httpResponse = httpRequest
-				.contentType("application/x-www-form-urlencoded").body(postStr)
-				.send();
-		// 取得同步返回数据
-		String body = httpResponse.bodyText();
-		// 进行验签
-		String resultStr = SecurityService.parseCVResult(body,cfcaInfoBo);
-		log.info("app支付返回参数："+resultStr);
-		return resultStr;
+		map.put("version", Constants.VERSION_VALUE);
+		map.put("cmdId", "208");
+		map.put("merCustId", merCustId);
+		//设置加签后的接口参数
+		map.put("sign", sign);
+		//设置接口地址
+		map.put("url", url);
+
+		return "submit";
 	}
 	/**
 	 * 生成订单号

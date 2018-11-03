@@ -43,6 +43,13 @@
         </tr>
         <tr>
             <td>
+                <a href="/cash/bindCard" target="_blank">绑取现卡</a>
+                <a href="/cash/bindCardQuery" target="_blank">绑取现卡查询</a>
+                <a href="/cash/take" target="_blank">取现</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a href="/account/open"  target="_blank">个人开户</a>
                 <a href="/account/openCompany"  target="_blank">企业开户</a>
                 <a href="/account/demo/queryStat"  target="_blank">查询企业开户状态</a>

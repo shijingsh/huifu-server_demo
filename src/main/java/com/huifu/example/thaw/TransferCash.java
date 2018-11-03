@@ -35,7 +35,7 @@ public class TransferCash {
 	public static Logger log = LoggerFactory.getLogger(TransferCash.class);
 
 	/**
-	 * 订单解冻
+	 * 转账
 	 * @param map
 	 * @param request
 	 * @param response

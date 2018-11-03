@@ -154,6 +154,62 @@ public class TransQuery {
 		return resultStr;
 	}
 
+	@RequestMapping("/bindCard")
+	@ResponseBody
+	public String bindCard(ModelMap map, HttpServletRequest request, HttpServletResponse response,
+						HttpSession session) throws Exception {
+
+		String transType = request.getParameter(Constants.TRANS_TYPE);
+		String orderId = request.getParameter(Constants.ORDER_ID);
+		String orderDate = request.getParameter(Constants.ORDER_DATE);
+		// 请求数据map格式
+		Map<String, String> payParams = new HashMap<>();
+
+		// 根据接口规范，传入请求数据
+		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
+		payParams.put(Constants.CMD_ID, Constants.TRANS_QUERY_CMD_ID);
+		payParams.put(Constants.MER_CUST_ID,merCustId);
+		payParams.put(Constants.ORDER_ID,orderId);
+		payParams.put(Constants.ORDER_DATE,orderDate);
+		payParams.put(Constants.TRANS_TYPE,transType);
+		payParams.put(Constants.MER_PRIV, "");
+		payParams.put(Constants.EXTENSION, "");
+
+		CfcaInfoBo cfcaInfoBo = new CfcaInfoBo();
+		// 解签证书
+		cfcaInfoBo.setCerFile(System.getProperty("cerFile"));
+		// 加签证书
+		cfcaInfoBo.setPfxFile(System.getProperty("pfxFile"));
+		// 加签密码
+		cfcaInfoBo.setPfxFilePwd(System.getProperty("pfxFilePwd"));
+
+		// 转换成json格式
+		String paramsStr = JSON.toJSONString(payParams);
+
+		log.info("状态查询请求参数：" + paramsStr);
+
+		// 进行加签
+		String sign = SecurityService.sign(paramsStr,cfcaInfoBo);
+
+		HttpRequest httpRequest = HttpRequest.post(url).charset("UTF-8");
+
+		// 组织post数据
+		String postStr = "cmd_id=" + Constants.TRANS_QUERY_CMD_ID
+				+ "&version=" + Constants.VERSION_VALUE
+				+ "&mer_cust_id=" + merCustId
+				+ "&check_value=" + sign;
+
+		// 发送请求给汇付
+		HttpResponse httpResponse = httpRequest
+				.contentType("application/x-www-form-urlencoded").body(postStr)
+				.send();
+		// 取得同步返回数据
+		String body = httpResponse.bodyText();
+		// 进行验签
+		String resultStr =  SecurityService.parseCVResult(body,cfcaInfoBo);
+		log.info("状态查询返回参数：" + resultStr);
+		return resultStr;
+	}
 	private String merCustId;
 	private String url;
 	private String userCustId;
