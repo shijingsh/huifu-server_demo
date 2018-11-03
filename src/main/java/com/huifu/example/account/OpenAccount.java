@@ -126,13 +126,15 @@ public class OpenAccount {
 		payParams.put(Constants.EXTENSION, "");
 		//user_name
 		payParams.put("apply_id", "2000001hh43");
-		payParams.put("operate_type", "00090001");
-		payParams.put("corp_license_type", "01030100");
-		payParams.put("corp_type", "01030001");
+		payParams.put("operate_type", "00090001"); //00090000 新增 00090001 修改
+		payParams.put("corp_license_type", "01030100");//01030100.普通营业执照企业 01030101.三证合一企业
+		payParams.put("corp_type", "01030001");	//01030000.普通企业 01030001.个体户
 		payParams.put("corp_name", "全球黑科");
+		//三证
 		payParams.put("business_code", "a1225431204");
 		payParams.put("institution_code", "088100129");
 		payParams.put("tax_code", "a199945675");
+
 		payParams.put("license_start_date", "20160830");
 		payParams.put("license_end_date", "20190830");
 		payParams.put("corp_business_address", "上海市");
@@ -150,8 +152,8 @@ public class OpenAccount {
 		payParams.put("contact_mobile", "15911552132");
 		payParams.put("contact_email", "1234901234567890_.jo@qq.ne");
 		payParams.put("bank_acct_name", "全球黑科");
-		payParams.put("bank_id", "01030000");
-		payParams.put("bank_acct_no", "622253011203");
+		payParams.put("bank_id", "01050000");
+		payParams.put("bank_acct_no", "6232510000001001");
 		payParams.put("bank_branch", "支付");
 		payParams.put("bank_prov", "0031");
 		payParams.put("bank_area", "3100");
@@ -202,6 +204,7 @@ public class OpenAccount {
 		payParams.put(Constants.URL,url);
 		payParams.put(Constants.CMD_ID,"317");
 		payParams.put("business_code","a1225431204");
+		//payParams.put("cert_id","a1225431204");
 
 		// 调用交易状态查询接口
 		String statResult = null;

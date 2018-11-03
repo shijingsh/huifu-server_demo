@@ -16,6 +16,8 @@
         <tr>
             <td>
                 <a href="/quickPay/demo/queryStat"  target="_blank">查询支付状态</a>
+
+                <a href="/quickPay/demo/queryStat?trans_type=11"  target="_blank">查询扫码支付状态</a>
             </td>
         </tr>
         <tr>

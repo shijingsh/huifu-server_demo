@@ -213,8 +213,8 @@ public class QuickPay {
 		payParams.put("pay_type", payType);
 		payParams.put("request_type", "00");
 		payParams.put("goods_desc", "商品测试");
-		payParams.put("goods_type", "试测试试qq");
-		payParams.put("oper_user_id", "试试qq");
+		//payParams.put("goods_type", "试测试试qq");
+		//payParams.put("oper_user_id", "试试qq");
 		//payParams.put("order_expire_time", "9900");
 
 		CfcaInfoBo cfcaInfoBo = new CfcaInfoBo();
@@ -258,12 +258,16 @@ public class QuickPay {
 			HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) throws IOException {
 
+		String trans_type = request.getParameter("trans_type");
+		if(StringUtils.isBlank(trans_type)){
+			trans_type ="13";
+		}
 		// 获取页面数据、加签
-		Map<String, String> payParams = new HashMap<String, String>();
+		Map<String, String> payParams = new HashMap<>();
 		payParams.put(Constants.MER_CUST_ID, merCustId);
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
-		payParams.put(Constants.TRANS_TYPE, "13");
+		payParams.put(Constants.TRANS_TYPE, trans_type);
 		payParams.put(Constants.URL,url);
 
 		// 调用交易状态查询接口
@@ -285,6 +289,8 @@ public class QuickPay {
 		Map<String, Object> resultMap = JSON.parseObject(statResult);
 		platform_seq_id = (String) resultMap.get("platform_seq_id");
 		user_cust_id = (String) resultMap.get("user_cust_id");
+
+		map.put("statResult", statResult);
 		// 获得终态，返回页面信息
 		if (Constants.TRANS_SUCCESS.equals(resultMap.get(Constants.TRANS_STAT))) {
 			map.put("stat", "支付成功");

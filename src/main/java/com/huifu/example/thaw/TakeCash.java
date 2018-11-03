@@ -115,6 +115,7 @@ public class TakeCash {
 		Map<String, String> payParams = new HashMap<>();
 
 		//绑卡需要318接口才能返回 bind_id,310没有这个字段
+		//318需要开通接口权限
 		// 根据接口规范，传入请求数据
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
 		payParams.put(Constants.CMD_ID, "318");
