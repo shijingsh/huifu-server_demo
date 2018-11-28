@@ -28,6 +28,13 @@
         </tr>
         <tr>
             <td>
+                <a href="/bankPay/payFrozen" target="_blank">去网银支付冻结</a>
+
+                <a href="/bankPay/demo/queryStat"  target="_blank">查询网银支付状态</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a href="/quickPay/payQrcode" target="_blank">微信扫描支付</a>
                 <a href="/quickPay/payQrcode?pay_type=05"  target="_blank">支付宝扫描支付</a>
             </td>
