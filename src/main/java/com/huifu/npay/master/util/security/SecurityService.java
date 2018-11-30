@@ -3,6 +3,7 @@
  */
 package com.huifu.npay.master.util.security;
 
+import java.net.URL;
 import java.nio.charset.Charset;
 
 import org.apache.commons.codec.binary.Base64;
@@ -36,8 +37,10 @@ public class SecurityService {
 		// 进行base64转换
 		String base64RequestParams = Base64.encodeBase64String(params.getBytes(Charset.forName("utf-8")));
 
+		URL url = SecurityService.class.getClassLoader().getResource(cfcaInfoBo.getPfxFile());
+		String path = url.getPath();
 		// 加签
-		SignResult signResult = CFCASignature.signature(cfcaInfoBo.getPfxFile(), cfcaInfoBo.getPfxFilePwd(), base64RequestParams, "utf-8");
+		SignResult signResult = CFCASignature.signature(path, cfcaInfoBo.getPfxFilePwd(), base64RequestParams, "utf-8");
 
 		if ("000".equals(signResult.getCode())) {
 			logger.info("加签结果："+signResult.getSign());		
@@ -60,10 +63,11 @@ public class SecurityService {
 		JSONObject jsonObject = JSON.parseObject(responseJson);
 		// 取得返回数据密文
 		String sign = jsonObject.getString("check_value");
-
+		URL url = SecurityService.class.getClassLoader().getResource(cfcaInfoBo.getCerFile());
+		String path = url.getPath();
 		// 进行验签，参数1为汇付商户号，固定为100001
 		VerifyResult verifyResult = CFCASignature.verifyMerSign(cfcaInfoBo.getNpayMerId(), sign,
-				"utf-8",cfcaInfoBo.getCerFile());
+				"utf-8",path);
 		if ("000".equals(verifyResult.getCode())) {
 
 			// 取得base64格式内容
@@ -83,14 +87,13 @@ public class SecurityService {
 	
 	/**
 	 * npay 验签
-	 * 
-	 * @param responseJson
-	 * @return
 	 */
 	public static String parseResult(String sign,CfcaInfoBo cfcaInfoBo) {
 		// 进行验签，参数1为汇付商户号，固定为100001
+		URL url = SecurityService.class.getClassLoader().getResource(cfcaInfoBo.getCerFile());
+		String path = url.getPath();
 		VerifyResult verifyResult = CFCASignature.verifyMerSign(cfcaInfoBo.getNpayMerId(), sign,
-				"utf-8",cfcaInfoBo.getCerFile());
+				"utf-8",path);
 
 		System.out.println(verifyResult.toString());
 		System.out.println("verifyResult" + verifyResult.toString());
