@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.huifu.example.pay.QuickPay;
 import com.huifu.npay.master.transQuery.TransQueryService;
+import com.huifu.npay.master.util.MemoryCache;
 import com.huifu.saturn.cfca.util.StringUtils;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -64,12 +65,12 @@ public class Refund {
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
 		payParams.put(Constants.CMD_ID, Constants.REFUND_CMD_ID);		
 		payParams.put(Constants.MER_CUST_ID, merCustId);
-		payParams.put(Constants.USER_CUST_ID, QuickPay.user_cust_id);
+		payParams.put(Constants.USER_CUST_ID, MemoryCache.user_cust_id);
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
 		payParams.put(Constants.TRANS_AMT,"0.01");
 		//原交易的交易唯一标识号
-		payParams.put(Constants.ORGINAL_PLATFORM_SEQ_ID, QuickPay.platform_seq_id);
+		payParams.put(Constants.ORGINAL_PLATFORM_SEQ_ID, MemoryCache.platform_seq_id);
 		//0 是：1 原交易为快捷支付WEB版或快捷支付APP版时，设为是
 		//扫码支付不要传
 		if(StringUtils.isBlank(type)){

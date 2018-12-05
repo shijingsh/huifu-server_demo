@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.huifu.npay.master.domain.DivDetailBo;
+import com.huifu.npay.master.util.MemoryCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,8 +41,6 @@ public class QuickPay {
 	public static Logger log = LoggerFactory.getLogger(QuickPay.class);
 	public static String orderId = null;
 	public static String orderDate = null;
-	public static String platform_seq_id = null;
-	public static String user_cust_id = null;
 	
 	// 从商户页面提交
 	@RequestMapping(value = "/pay")
@@ -287,8 +286,8 @@ public class QuickPay {
 
 		// 获取返回，解签，状态处理中则继续
 		Map<String, Object> resultMap = JSON.parseObject(statResult);
-		platform_seq_id = (String) resultMap.get("platform_seq_id");
-		user_cust_id = (String) resultMap.get("user_cust_id");
+		MemoryCache.platform_seq_id = (String) resultMap.get("platform_seq_id");
+		MemoryCache.user_cust_id = (String) resultMap.get("user_cust_id");
 
 		map.put("statResult", statResult);
 		// 获得终态，返回页面信息

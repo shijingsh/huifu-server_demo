@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.huifu.example.pay.QuickPay;
 import com.huifu.npay.master.domain.CfcaInfoBo;
 import com.huifu.npay.master.domain.DivDetailBo;
+import com.huifu.npay.master.util.MemoryCache;
 import com.huifu.npay.master.util.constant.Constants;
 import com.huifu.npay.master.util.security.SecurityService;
 import jodd.http.HttpRequest;
@@ -61,12 +62,12 @@ public class ThawOrder {
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
 		payParams.put(Constants.CMD_ID, "212");
 		payParams.put(Constants.MER_CUST_ID, merCustId);
-		payParams.put(Constants.USER_CUST_ID, QuickPay.user_cust_id);  	// 这个是什么值？
+		payParams.put(Constants.USER_CUST_ID, MemoryCache.user_cust_id);  	// 这个是什么值？
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
 		//payParams.put(Constants.TRANS_AMT,"0.01");
 		//原交易的交易唯一标识号
-		payParams.put(Constants.ORGINAL_PLATFORM_SEQ_ID, QuickPay.platform_seq_id);
+		payParams.put(Constants.ORGINAL_PLATFORM_SEQ_ID, MemoryCache.platform_seq_id);
 		payParams.put(Constants.QUICKPAY_PAGE_FLAG,"1");
 		//退款分账串
 		DivDetailBo divBo = new DivDetailBo();

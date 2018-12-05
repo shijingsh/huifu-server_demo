@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.huifu.npay.master.domain.CfcaInfoBo;
 import com.huifu.npay.master.domain.DivDetailBo;
 import com.huifu.npay.master.transQuery.TransQueryService;
+import com.huifu.npay.master.util.MemoryCache;
 import com.huifu.npay.master.util.constant.Constants;
 import com.huifu.npay.master.util.security.SecurityService;
 import com.huifu.saturn.cfca.util.StringUtils;
@@ -37,9 +38,7 @@ public class BankPay {
 	public static Logger log = LoggerFactory.getLogger(BankPay.class);
 	public static String orderId = null;
 	public static String orderDate = null;
-	public static String platform_seq_id = null;
-	public static String user_cust_id = null;
-	
+
 	// 从商户页面提交
 	@RequestMapping(value = "/pay")
 	public String pay(ModelMap map, HttpServletRequest request,
@@ -208,8 +207,9 @@ public class BankPay {
 
 		// 获取返回，解签，状态处理中则继续
 		Map<String, Object> resultMap = JSON.parseObject(statResult);
-		platform_seq_id = (String) resultMap.get("platform_seq_id");
-		user_cust_id = (String) resultMap.get("user_cust_id");
+
+		MemoryCache.platform_seq_id = (String) resultMap.get("platform_seq_id");
+		MemoryCache.user_cust_id = (String) resultMap.get("user_cust_id");
 
 		map.put("statResult", statResult);
 		// 获得终态，返回页面信息

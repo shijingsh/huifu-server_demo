@@ -1,9 +1,7 @@
 package com.huifu.example.thaw;
 
 import com.alibaba.fastjson.JSON;
-import com.huifu.example.pay.QuickPay;
 import com.huifu.npay.master.domain.CfcaInfoBo;
-import com.huifu.npay.master.domain.DivDetailBo;
 import com.huifu.npay.master.util.constant.Constants;
 import com.huifu.npay.master.util.security.SecurityService;
 import jodd.http.HttpRequest;
@@ -21,9 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

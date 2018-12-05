@@ -42,7 +42,8 @@
         <tr>
             <td>
                 <a href="/refund/refund" target="_blank">退款</a>
-                <a href="/refund/refund?type1" target="_blank">扫描支付退款</a>
+                <a href="/refund/refund?type=2" target="_blank">网银支付退款</a>
+                <a href="/refund/refund?type=1" target="_blank">扫描支付退款</a>
                 <a href="/refund/demo/queryStat"  target="_blank">查询退款状态</a>
             </td>
         </tr>
