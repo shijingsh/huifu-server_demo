@@ -116,6 +116,7 @@ public class TransQuery {
 		payParams.put(Constants.MER_CUST_ID,merCustId);
 		payParams.put(Constants.USER_CUST_ID,inCustId);
 		payParams.put(Constants.ACCT_ID,inAcctId);
+		payParams.put(Constants.BG_RET_URL,bgRetUrl);
 
 
 		CfcaInfoBo cfcaInfoBo = new CfcaInfoBo();
@@ -218,6 +219,7 @@ public class TransQuery {
 	private String pfxFile;
 	private String pfxFilePwd;
 	private String cerFile;
+	private String bgRetUrl;
     @Value("#{prop.merCustId}") 
 	public void setMerCustId(String merCustId) {  
 		this.merCustId=merCustId;
@@ -252,5 +254,9 @@ public class TransQuery {
 	@Value("#{prop.cerFile}")
 	public void setCerFile(String cerFile) {
 		this.cerFile = cerFile;
+	}
+	@Value("#{prop.bgRetUrl}")
+	public void setBgRetUrl(String bgRetUrl) {
+		this.bgRetUrl = bgRetUrl;
 	}
 }

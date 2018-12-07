@@ -77,8 +77,8 @@ public class TakeCash {
 
 		payParams.put("bank_id", "01050000");
 		payParams.put("dc_flag", "0");
-		payParams.put("card_no", "6232510000009004");
-		payParams.put("card_mobile", "15921359798");
+		payParams.put("card_no", "6232510000009005");
+		payParams.put("card_mobile", "15921359799");
 		payParams.put("card_prov", "0031");
 		payParams.put("card_area", "3100");
 

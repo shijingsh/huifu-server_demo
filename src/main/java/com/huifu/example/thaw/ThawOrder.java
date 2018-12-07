@@ -68,7 +68,7 @@ public class ThawOrder {
 		//payParams.put(Constants.TRANS_AMT,"0.01");
 		//原交易的交易唯一标识号
 		payParams.put(Constants.ORGINAL_PLATFORM_SEQ_ID, MemoryCache.platform_seq_id);
-		payParams.put(Constants.QUICKPAY_PAGE_FLAG,"0");
+		payParams.put(Constants.QUICKPAY_PAGE_FLAG,"1");
 		//退款分账串
 		DivDetailBo divBo = new DivDetailBo();
 		divBo.setDivCustId(inCustId);//inCustId是原支付入账用户客户号
