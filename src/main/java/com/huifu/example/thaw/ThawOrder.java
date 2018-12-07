@@ -62,19 +62,19 @@ public class ThawOrder {
 		payParams.put(Constants.VERSION, Constants.VERSION_VALUE);
 		payParams.put(Constants.CMD_ID, "212");
 		payParams.put(Constants.MER_CUST_ID, merCustId);
-		payParams.put(Constants.USER_CUST_ID, MemoryCache.user_cust_id);  	// 这个是什么值？
+		payParams.put(Constants.USER_CUST_ID, inCustId);
 		payParams.put(Constants.ORDER_ID, orderId);
 		payParams.put(Constants.ORDER_DATE, orderDate);
 		//payParams.put(Constants.TRANS_AMT,"0.01");
 		//原交易的交易唯一标识号
 		payParams.put(Constants.ORGINAL_PLATFORM_SEQ_ID, MemoryCache.platform_seq_id);
-		payParams.put(Constants.QUICKPAY_PAGE_FLAG,"1");
+		payParams.put(Constants.QUICKPAY_PAGE_FLAG,"0");
 		//退款分账串
 		DivDetailBo divBo = new DivDetailBo();
 		divBo.setDivCustId(inCustId);//inCustId是原支付入账用户客户号
 		divBo.setDivAcctId(inAcctId);//inAcctId是原支付入账账户
 		divBo.setDivAmt("0.01");//金额
-		divBo.setDivFreezeFg("01"); //01：冻结; 00：不冻结
+		divBo.setDivFreezeFg("00"); //01：冻结; 00：不冻结
 
 		List<DivDetailBo> divBoList = new ArrayList<>();
 		divBoList.add(divBo);
